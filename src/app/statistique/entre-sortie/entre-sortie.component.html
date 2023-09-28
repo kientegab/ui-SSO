@@ -1,0 +1,34 @@
+<div class="grid card">
+    <fieldset class="form-group border p-3" >
+        <legend class="w-auto px-2 text-bolt" style="color:green;">Recherche multicritères concernant les entrée-sorties</legend>
+        <div class="grid formgrid col-12">
+            <div class="field col-12 md:col-6">
+                <label for="dateDebutPeriode">Date debut</label>
+                <p-calendar name="dateDebutPeriode" id="dateDebutPeriode" styleClass="mb-3" [style]="{'width':'100%'}" dateFormat="dd-mm-yy" [showIcon]="true" inputId="dateDebutPeriode"
+                    [inline]="false"></p-calendar>
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="dateFinPeriode">Date fin</label>
+                <p-calendar name="dateFinPeriode" id="dateFinPeriode" styleClass="mb-3" [style]="{'width':'100%'}" dateFormat="dd-mm-yy" [showIcon]="true" inputId="dateFinPeriode"
+                    [inline]="false"></p-calendar>
+            </div>
+            <div class="field col-12 md:col-12">
+                <div class="flex justify-content-center ">
+                    <p-button class="" label="Rechercher"></p-button>
+                </div>
+            </div>
+            <div class="field col-12 md:col-12">
+                <p-table #dt  styleClass="p-datatable-sm">
+                    <ng-template pTemplate="header">
+                        <tr>
+                          <th></th>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </fieldset>
+
+</div>
+
+

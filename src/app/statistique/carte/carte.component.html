@@ -1,0 +1,76 @@
+<p-dialog header="Précisez le format du fichier d'export souhaité" [(visible)]="formatvisible" [style]="{ width: '30vw' }">
+    <div class="flex py-2 justify-content-center">
+        <p-dropdown autoWidth="false" appendTo="body" [options]="formats" [(ngModel)]="formatSelected" placeholder="Choisissez le format d'export" [style]="{width: '20vw', 'margin-right': '10px'}"></p-dropdown>
+        <p-button styleClass="p-button-raised p-button-help" label="Exporter" icon="pi pi-print" (click)="exporter()"></p-button>
+    </div>
+</p-dialog>
+
+<div class="grid card">
+    <fieldset class="form-group border p-3" >
+        <legend class="w-auto px-2 text-bolt" style="color:green;">Critères de recherche des cartes délivrées</legend>
+        <div class="grid formgrid col-12">
+            <div class="field col-12 md:col-6">
+                <label for="typeEmployeur">Date debut</label>
+                <p-calendar name="dateDebutPeriode" styleClass="mb-3" [style]="{'width':'100%'}" dateFormat="dd-mm-yy" [showIcon]="true" inputId="dateDebutPeriode"
+                    [inline]="false"></p-calendar>
+            </div>
+            <div class="field col-12 md:col-6">
+                <label for="typeEmployeur">Date fin</label>
+                <p-calendar name="dateFinPeriode" styleClass="mb-3" [style]="{'width':'100%'}" dateFormat="dd-mm-yy" [showIcon]="true" inputId="dateFinPeriode"
+                    [inline]="false"></p-calendar>
+            </div>
+            <div class="field col-12 md:col-12">
+                <div class="flex justify-content-center ">
+                    <p-button styleClass="p-button-raised p-button-success" [style]="{'margin-right': '20px'}" label="Rechercher" icon="pi pi-search" (onClick)="rechercher()"></p-button> 
+                    <p-button styleClass="p-button-raised p-button-help" label="Exporter" icon="pi pi-print" (click)="showDialog()"></p-button>
+                </div>
+            </div> 
+        </div>
+    </fieldset> 
+</div>
+
+<div class="card field col-12 md:col-12">
+    <p-table #dt [value]="assureValues" [paginator]="true" [rows]="recordsPerPage" [loading]="isLoading"
+        [totalRecords]="totalRecords"
+        [scrollable]="true" scrollDirection="horizontal" 
+        currentPageReportTemplate="Affichage {first} à {last} de {totalRecords} élements" [showCurrentPageReport]=true
+        [rowsPerPageOptions]="[10, 20, 100]" styleClass="p-datatable-sm">
+        
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 180px">N° Immat</th>
+                <th style="width: 120px">Nom</th>
+                <th style="width: 100px">Prénom</th>
+                <th style="width: 100px">Date N.</th>
+
+                <th style="width: 100px">Type</th>
+                <th style="width: 120px">Ville</th>
+                <th style="width: 120px">?</th>
+                <th style="width: 150px">Sexe</th>
+                <th style="width: 120px">Tel.</th>
+                <th pSortableColumn="nat" style="width: 120px">Nat.<p-sortIcon field="nat"></p-sortIcon></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-assureValue>
+            <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" [pContextMenuRow]="assureValue">
+                <td style="width: 180px">{{assureValue.immatriculation}}</td>
+                <td style="width: 100px">{{assureValue.nom}}</td>
+                <td style="width: 100px">{{assureValue.prenom}}</td>
+                <td style="width: 120px">{{assureValue.dateNaissance ? (assureValue.dateNaissance | date: 'dd-MM-yyyy HH:mm:ss') : '-'}}</td> 
+
+                <td style="width: 120px">{{assureValue.typeAssure? assureValue.typeAssure.libelle :'-'}}</td>
+                <td style="width: 120px">{{assureValue.secteurVillage ? assureValue.secteurVillage.libelle : '-'}}</td> 
+                
+                <td style="width: 100px">{{assureValue.principal==true ? 'Principal' : 'A charge'}}</td> 
+
+                <td style="width: 100px">{{assureValue.genre ? assureValue.genre : '-' }}</td> 
+                
+                <td style="width: 120px">{{assureValue.telephone ? assureValue.telephone : '-'}}</td> 
+                <td style="width: 150px">{{assureValue.nationalite ? assureValue.nationalite : '-'}}</td> 
+                 
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+

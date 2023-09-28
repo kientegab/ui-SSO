@@ -1,0 +1,125 @@
+
+<p-dialog header="Précisez le format du fichier d'export souhaité" [(visible)]="formatvisible" [style]="{ width: '30vw' }">
+    <div class="flex py-2 justify-content-center">
+        <p-dropdown autoWidth="false" appendTo="body" [options]="formats" [(ngModel)]="formatSelected" placeholder="Choisissez le format d'export" [style]="{width: '20vw', 'margin-right': '10px'}"></p-dropdown>
+        <p-button styleClass="p-button-raised p-button-help" label="Exporter" icon="pi pi-print" (click)="exporter()"></p-button>
+    </div>
+</p-dialog>
+
+<div class="grid card">
+    
+    <fieldset class="form-group border p-3" >
+        
+        <legend class="w-auto px-2 text-bolt" style="color:green;">Critères de recherche d'affiliations</legend>
+        
+        <div class="grid formgrid col-12">
+
+            <div class="formgrid grid col-12"> 
+                <div class="field col-4 md:col-4">
+                      <label for="typeEmployeur">Catégorie employeur</label>
+                      <p-multiSelect [style]="{'width':'100%'}" [options]="listCategorieEmp"  optionLabel="libelle" display="chip"></p-multiSelect>
+                </div>
+
+                <div class="field col-4 md:col-4">
+                    <label for="regionSelected">Région<span class="text-danger">*</span>:</label>
+                    <p-dropdown autoWidth="false" styleClass="mb-3" [style]="{'width':'100%'}" [options]="regions" [(ngModel)]="regionSelected"   optionLabel="libelle" inputId="regionSelected"
+                          name="regionSelected" placeholder="Selectionner la région..." [filter]="true" appendTo="body" (onChange)="onSelectedRegion(regionSelected)" [showClear]="true" >
+                    </p-dropdown>
+                </div>
+              
+                <div class="field col-4 md:col-4">
+                    <label for="provinceSelected">Province<span class="text-danger"></span>:</label>
+                    <p-dropdown autoWidth="false" styleClass="mb-3" [style]="{'width':'100%'}" [options]="provinces"  [(ngModel)]="provinceSelected" optionLabel="libelle" inputId="provinceSelected"
+                        name="provinceSelected" placeholder="Selectionner la province..." [filter]="true" appendTo="body" (onChange)="onSelectedProvince(provinceSelected)" [showClear]="true" >
+                    </p-dropdown>
+                </div>
+            </div>
+
+            <div class="formgrid grid col-12">  
+
+                <div class="field col-4 md:col-4">
+                    <label for="communeSelected">Département/Commune<span class="text-danger">*</span>:</label>
+                    <p-dropdown autoWidth="false" styleClass="mb-3" [style]="{'width':'100%'}" [options]="communes"  [(ngModel)]="communeSelected" optionLabel="libelle" inputId="communeSelected"
+                        name="communeSelected" placeholder="Selectionner la commune..." [filter]="true" appendTo="body"  (onChange)="onSelectedCommune(communeSelected)" [showClear]="true" >
+                    </p-dropdown>
+                </div>
+
+                <div class="field col-4 md:col-4">
+                    <label for="arrondissementSelected">Arrondissement<span class="text-danger">*</span>:</label>
+                    <p-dropdown autoWidth="false" styleClass="mb-3" [style]="{'width':'100%'}" [options]="arrondissements" [(ngModel)]="arrondissementSelected"  optionLabel="libelle" inputId="arrondissementSelected"
+                        name="arrondissementSelected" placeholder="Selectionner l'arrondissement..." [filter]="true" appendTo="body" (onChange)="onSelectedArrondissement(arrondissementSelected)" [showClear]="true" >
+                    </p-dropdown>
+                </div>
+
+                <div class="field col-4 md:col-4">
+                    <label for="secteurVillageSelected">Secteur/Village<span class="text-danger">*</span>:</label>
+                    <p-dropdown autoWidth="false" styleClass="mb-3" [style]="{'width':'100%'}" [options]="secteurVillages" [(ngModel)]="secteurVillageSelected" optionLabel="libelle" inputId="secteurVillageSelected"
+                        name="secteurVillageSelected" placeholder="Selectionner le village..." [filter]="true" appendTo="body" [showClear]="true">
+                    </p-dropdown>
+                </div>
+
+            </div> 
+
+            <div class="formgrid grid col-12">  
+                  <div class="field col-6 md:col-6">
+                    <label for="dateDebutPeriode">Date début de période</label>
+                    <p-calendar name="dateDebutPeriode" styleClass="mb-3" [style]="{'width':'100%'}" dateFormat="dd-mm-yy" [showIcon]="true" inputId="dateDebutPeriode"
+                        [inline]="false" [(ngModel)]="dateDebutPeriode">
+                    </p-calendar>
+                </div>
+
+                <div class="field col-6 md:col-6">
+                    <label for="dateFinPeriode">Date de fin de période</label>
+                    <p-calendar name="dateFinPeriode" styleClass="mb-3" [style]="{'width':'100%'}" dateFormat="dd-mm-yy" [showIcon]="true" inputId="dateFinPeriode"
+                        [inline]="false" [(ngModel)]="dateFinPeriode">
+                    </p-calendar>
+                </div> 
+
+            </div> 
+
+            <div class="field col-12 md:col-12" style="text-align: right;">
+                <div class="flex justify-content-center">
+                    <p-button styleClass="p-button-raised p-button-success" [style]="{'margin-right': '20px'}" label="Rechercher" icon="pi pi-search" (onClick)="rechercher()"></p-button> 
+                    <p-button styleClass="p-button-raised p-button-help" label="Exporter" icon="pi pi-print" (click)="showDialog()"></p-button>
+                </div> 
+            </div> 
+             
+        </div>
+    </fieldset> 
+</div>
+
+<p-table #dt [value]="affiliationSteps" [paginator]="true" [rows]="recordsPerPage" [loading]="isLoading"
+    [totalRecords]="totalRecords"
+    [scrollable]="true" scrollDirection="horizontal" 
+    currentPageReportTemplate="Affichage {first} à {last} de {totalRecords} élements" [showCurrentPageReport]=true
+    [rowsPerPageOptions]="[10, 20, 100]" styleClass="p-datatable-sm">
+    
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="numeroAffiliation" style="width: 100px">Affiliation<p-sortIcon field="numeroAffiliation"></p-sortIcon></th>
+            <th pSortableColumn="morale" style="width: 120px">Catégorie<p-sortIcon field="morale"></p-sortIcon></th>
+            <th pSortableColumn="sigle" style="width: 100px">Sigle<p-sortIcon field="sigle"></p-sortIcon></th>
+            <th pSortableColumn="ifu" style="width: 100px">IFU<p-sortIcon field="ifu"></p-sortIcon></th>
+
+            <th pSortableColumn="formesJuridique" style="width: 100px">Forme<p-sortIcon field="formesJuridique"></p-sortIcon></th>
+            <th pSortableColumn="ville" style="width: 120px">Ville<p-sortIcon field="ville"></p-sortIcon></th>
+            <th pSortableColumn="typeEmp" style="width: 120px">Type<p-sortIcon field="typeEmp"></p-sortIcon></th>
+            <th pSortableColumn="raison" style="width: 150px">Raison S.<p-sortIcon field="raison"></p-sortIcon></th>
+            <th pSortableColumn="dateValidation" style="width: 120px">Validation<p-sortIcon field="dateValidation"></p-sortIcon></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-affiliationStep>
+        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" [pContextMenuRow]="affiliationStep">
+            <td style="width: 100px">{{affiliationStep.numeroAffiliation}}</td>
+            <td style="width: 120px">{{affiliationStep.morale?'Morale':'Physique'}}</td>
+            <td style="width: 100px">{{affiliationStep.sigle}}</td>
+            <td style="width: 100px">{{affiliationStep.ifu}}</td> 
+
+            <td style="width: 100px">{{affiliationStep.formeJuridique ? affiliationStep.formeJuridique.code : '-' }}</td> 
+            <td style="width: 120px">{{affiliationStep.secteurVillage ? affiliationStep.secteurVillage.libelle : '-'}}</td> 
+            <td style="width: 120px">{{affiliationStep.typeEmployeur ? affiliationStep.typeEmployeur.libelle : '-'}}</td> 
+            <td style="width: 150px">{{affiliationStep.raisonSociale ? affiliationStep.raisonSociale : '-'}}</td> 
+            <td style="width: 120px">{{affiliationStep.dateValide ? (affiliationStep.dateValide | date: 'dd-MM-yyyy HH:mm:ss') : '-'}}</td>  
+        </tr>
+    </ng-template>
+</p-table>

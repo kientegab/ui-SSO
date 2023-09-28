@@ -1,0 +1,78 @@
+<p-dialog header="Précisez le format du fichier d'export souhaité" [(visible)]="formatvisible" [style]="{ width: '30vw' }">
+    <div class="flex py-2 justify-content-center">
+        <p-dropdown autoWidth="false" appendTo="body" [options]="formats" [(ngModel)]="formatSelected" placeholder="Choisissez le format d'export" [style]="{width: '20vw', 'margin-right': '10px'}"></p-dropdown>
+        <p-button styleClass="p-button-raised p-button-help" label="Exporter" icon="pi pi-print" (click)="exporter()"></p-button>
+    </div>
+</p-dialog>
+
+<div class="grid card">
+    <fieldset class="form-group border p-3" >
+        <legend class="w-auto px-2 text-bolt" style="color:green;">Critères de recherche des déclarations</legend>
+        <div class="grid formgrid col-12">
+            <div class="field col-4 md:col-4">
+                <label for="typeEmployeurSelected">Type employeur</label> 
+                <p-dropdown autoWidth="false" styleClass="mb-3" [style]="{'width':'100%'}" [options]="typeEmployeurs"  [(ngModel)]="typeEmployeurSelected" optionLabel="libelle" inputId="typeAssureSelected"
+                    name="typeEmployeurSelected" placeholder="Selectionner le type..." [filter]="true" appendTo="body"  [showClear]="true" >
+                </p-dropdown> 
+            </div>
+            <div class="field col-4 md:col-4">
+                <label for="typeEmployeur">Date debut</label>
+                <p-calendar name="dateDebutPeriode" styleClass="mb-3" [style]="{'width':'100%'}" dateFormat="dd-mm-yy" [showIcon]="true" inputId="dateDebutPeriode"
+                    [inline]="false"></p-calendar>
+            </div>
+            <div class="field col-4 md:col-4">
+                <label for="typeEmployeur">Date fin</label>
+                <p-calendar name="dateFinPeriode" styleClass="mb-3" [style]="{'width':'100%'}" dateFormat="dd-mm-yy" [showIcon]="true" inputId="dateFinPeriode"
+                    [inline]="false"></p-calendar>
+            </div>
+            <div class="field col-12 md:col-12">
+                <div class="flex justify-content-center ">
+                    <p-button styleClass="p-button-raised p-button-success" [style]="{'margin-right': '20px'}" label="Rechercher" icon="pi pi-search" (onClick)="rechercher()"></p-button> 
+                    <p-button styleClass="p-button-raised p-button-help" label="Exporter" icon="pi pi-print" (click)="showDialog()"></p-button>
+                </div>
+            </div> 
+        </div>
+    </fieldset> 
+</div>
+
+<div class="card field col-12 md:col-12">
+    <p-table #dt [value]="declarationValues" [paginator]="true" [rows]="recordsPerPage" [loading]="isLoading"
+        [totalRecords]="totalRecords"
+        [scrollable]="true" scrollDirection="horizontal" 
+        currentPageReportTemplate="Affichage {first} à {last} de {totalRecords} élements" [showCurrentPageReport]=true
+        [rowsPerPageOptions]="[10, 20, 100]" styleClass="p-datatable-sm">
+        
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 200px">N° Aff.</th>
+                <th style="width: 200px">Employeur</th>
+                <th style="width: 200px">Type</th>
+                <th style="width: 100px">Date</th>
+
+                <th style="width: 100px">Taux ass.</th>
+                <th style="width: 120px">Taux emp.</th>
+                <th style="width: 120px">Type dec.</th> 
+                <th style="width: 120px">Code</th>
+                <th style="width: 120px">Montant</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-declarationValue>
+            <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" [pContextMenuRow]="declarationValue">
+                <td style="width: 200px">{{declarationValue.numeroAffiliation}}</td>
+                <td style="width: 200px">{{declarationValue.sigle}}</td>
+                <td style="width: 200px">{{declarationValue.typeEmployeur.libelle}}</td>
+                <td style="width: 100px">{{declarationValue.dateDeclaration ? (declarationValue.dateDeclaration | date: 'dd-MM-yyyy HH:mm:ss') : '-'}}</td> 
+
+                <td style="width: 100px">{{declarationValue.tauxAssure? declarationValue.tauxAssure :'-'}}</td>
+                <td style="width: 120px">{{declarationValue.tauxEmployeur ? declarationValue.tauxEmployeur : '-'}}</td> 
+                
+                <td style="width: 120px">{{declarationValue.typeDeclarant? declarationValue.typeDeclarant : '-'}}</td> 
+
+                <td style="width: 120px">{{declarationValue.code ? declarationValue.code : '-' }}</td> 
+                
+                <td style="width: 120px">{{declarationValue.montant ? declarationValue.montant : '-'}}</td>   
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+

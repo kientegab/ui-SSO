@@ -1,0 +1,82 @@
+<p-dialog header="Précisez le format du fichier d'export souhaité" [(visible)]="formatvisible" [style]="{ width: '30vw' }">
+    <div class="flex py-2 justify-content-center">
+        <p-dropdown autoWidth="false" appendTo="body" [options]="formats" [(ngModel)]="formatSelected" placeholder="Choisissez le format d'export" [style]="{width: '20vw', 'margin-right': '10px'}"></p-dropdown>
+        <p-button styleClass="p-button-raised p-button-help" label="Exporter" icon="pi pi-print" (click)="exporter()"></p-button>
+    </div>
+</p-dialog>
+
+<div class="grid card">
+    <fieldset class="form-group border p-3" >
+        <legend class="w-auto px-2 text-bolt" style="color:green;">Critères de recherche des cotisations</legend>
+        <div class="grid formgrid col-12">
+            <div class="field col-4 md:col-4">
+                <label for="typeEmployeurSelected">Type employeur</label> 
+                <p-dropdown autoWidth="false" styleClass="mb-3" [style]="{'width':'100%'}" [options]="typeEmployeurs"  [(ngModel)]="typeEmployeurSelected" optionLabel="libelle" inputId="typeAssureSelected"
+                    name="typeEmployeurSelected" placeholder="Selectionner le type..." [filter]="true" appendTo="body"  [showClear]="true" >
+                </p-dropdown> 
+            </div>
+            <div class="field col-4 md:col-4">
+                <label for="typeEmployeur">Date debut</label>
+                <p-calendar name="dateDebutPeriode" styleClass="mb-3" [style]="{'width':'100%'}" dateFormat="dd-mm-yy" [showIcon]="true" inputId="dateDebutPeriode"
+                    [inline]="false"></p-calendar>
+            </div>
+            <div class="field col-4 md:col-4">
+                <label for="typeEmployeur">Date fin</label>
+                <p-calendar name="dateFinPeriode" styleClass="mb-3" [style]="{'width':'100%'}" dateFormat="dd-mm-yy" [showIcon]="true" inputId="dateFinPeriode"
+                    [inline]="false"></p-calendar>
+            </div>
+            <div class="field col-12 md:col-12">
+                <div class="flex justify-content-center ">
+                    <p-button styleClass="p-button-raised p-button-success" [style]="{'margin-right': '20px'}" label="Rechercher" icon="pi pi-search" (onClick)="rechercher()"></p-button> 
+                    <p-button styleClass="p-button-raised p-button-help" label="Exporter" icon="pi pi-print" (click)="showDialog()"></p-button>
+                </div>
+            </div> 
+        </div>
+    </fieldset> 
+</div>
+
+<div class="card field col-12 md:col-12">
+    <p-table #dt [value]="cotisationValues" [paginator]="true" [rows]="recordsPerPage" [loading]="isLoading"
+        [totalRecords]="totalRecords"
+        [scrollable]="true" scrollDirection="horizontal" 
+        currentPageReportTemplate="Affichage {first} à {last} de {totalRecords} élements" [showCurrentPageReport]=true
+        [rowsPerPageOptions]="[10, 20, 100]" styleClass="p-datatable-sm">
+        
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 100px">N° Imm.</th>
+                <th style="width: 250px">Assure</th> 
+                <th style="width: 100px">Date</th>
+                <th style="width: 150px">Mode</th>
+                <th style="width: 150px">Modalité</th>
+
+                <th style="width: 100px">Type</th>
+                <th style="width: 120px">Montant</th>
+                <th style="width: 120px">Avance</th> 
+                <th style="width: 120px">Crédit</th>
+                <th style="width: 120px">Salaire</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-cotisationValue>
+            <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" [pContextMenuRow]="cotisationValue">
+                <td style="width: 100px">{{cotisationValue.assure ? cotisationValue.assure.numeroAffiliation : '-'}}</td>
+                <td style="width: 250px">{{cotisationValue.assure ? cotisationValue.assure.nom + ' ' +  cotisationValue.assure.prenom: '-'}}</td>
+                <td style="width: 100px">{{cotisationValue.dateCotisation ? (cotisationValue.dateCotisation | date: 'dd-MM-yyyy HH:mm:ss') : '-'}}</td> 
+                
+                <td style="width: 150px">{{cotisationValue.modePaiementEnum}}</td> 
+                <td style="width: 150px">{{cotisationValue.modalitePaiementEnum? cotisationValue.modalitePaiementEnum :'-'}}</td>
+                
+                <td style="width: 100px">{{cotisationValue.typeCotisation ? cotisationValue.typeCotisation.libelle : '-'}}</td> 
+                
+                <td style="width: 120px">{{cotisationValue.montant? cotisationValue.montant : '-'}}</td> 
+
+                <td style="width: 120px">{{cotisationValue.avance ? cotisationValue.avance : '-' }}</td> 
+
+                <td style="width: 120px">{{cotisationValue.credit ? cotisationValue.credit : '-' }}</td> 
+                
+                <td style="width: 120px">{{cotisationValue.montantElementSalaire ? cotisationValue.montantElementSalaire : '-'}}</td>   
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+

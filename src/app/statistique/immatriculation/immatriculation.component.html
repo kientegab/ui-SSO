@@ -1,0 +1,130 @@
+<p-dialog header="Précisez le format du fichier d'export souhaité" [(visible)]="formatvisible" [style]="{ width: '30vw' }">
+    <div class="flex py-2 justify-content-center">
+        <p-dropdown autoWidth="false" appendTo="body" [options]="formats" [(ngModel)]="formatSelected" placeholder="Choisissez le format d'export" [style]="{width: '20vw', 'margin-right': '10px'}"></p-dropdown>
+        <p-button styleClass="p-button-raised p-button-help" label="Exporter" icon="pi pi-print" (click)="exporter()"></p-button>
+    </div>
+</p-dialog>
+
+<div class="grid card">
+    <fieldset class="form-group border p-3" >
+        
+        <legend class="w-auto px-2 text-bolt" style="color:green;">Critères de recherche des immatriculations</legend>
+       
+        <div class="grid formgrid col-12">
+            <div class="field col-4 md:col-4">
+                <label for="typeAssureSelected">Type assuré</label>
+                <p-dropdown autoWidth="false" styleClass="mb-3" [style]="{'width':'100%'}" [options]="assures"  [(ngModel)]="typeAssureSelected" optionLabel="libelle" inputId="typeAssureSelected"
+                    name="typeAssureSelected" placeholder="Selectionner le type..." [filter]="true" appendTo="body"  [showClear]="true" >
+                </p-dropdown> 
+            </div>
+            <div class="field col-2 md:col-2">
+                <label for="sexeSelected">Sexe</label>
+                <p-dropdown autoWidth="false" styleClass="mb-3" [style]="{'width':'100%'}" [options]="listSexe"  [(ngModel)]="sexeSelected" optionLabel="libelle" inputId="sexeSelected"
+                    name="sexeSelected" placeholder="Selectionner le sexe..." [filter]="true" appendTo="body"  [showClear]="true" >
+                </p-dropdown>
+            </div>
+            <div class="field col-2 md:col-2">
+                <label for="statutSelected">Statut</label>
+                <p-dropdown autoWidth="false" styleClass="mb-3" [style]="{'width':'100%'}" [options]="listStatut"  [(ngModel)]="statutSelected" optionLabel="libelle" inputId="statutSelected"
+                name="statutSelected" placeholder="Selectionner le statut..." [filter]="true" appendTo="body"  [showClear]="true" >
+            </p-dropdown>
+            </div>
+            <div class="field col-4 md:col-4">
+                <label for="regionSelected">Région<span class="text-danger">*</span>:</label>
+                <p-dropdown autoWidth="false" styleClass="mb-3" [style]="{'width':'100%'}" [options]="regions" [(ngModel)]="regionSelected"   optionLabel="libelle" inputId="regionSelected"
+                        name="regionSelected" placeholder="Selectionner la région..." [filter]="true" appendTo="body" (onChange)="onSelectedRegion(regionSelected)" [showClear]="true" >
+                </p-dropdown>
+            </div>
+            
+            <div class="field col-4 md:col-4">
+                <label for="provinceSelected">Province<span class="text-danger"></span>:</label>
+                <p-dropdown autoWidth="false" styleClass="mb-3" [style]="{'width':'100%'}" [options]="provinces"  [(ngModel)]="provinceSelected" optionLabel="libelle" inputId="provinceSelected"
+                    name="provinceSelected" placeholder="Selectionner la province..." [filter]="true" appendTo="body" (onChange)="onSelectedProvince(provinceSelected)" [showClear]="true" >
+                </p-dropdown>
+            </div>
+
+            <div class="field col-4 md:col-4">
+                <label for="communeSelected">Département/Commune<span class="text-danger">*</span>:</label>
+                <p-dropdown autoWidth="false" styleClass="mb-3" [style]="{'width':'100%'}" [options]="communes"  [(ngModel)]="communeSelected" optionLabel="libelle" inputId="communeSelected"
+                    name="communeSelected" placeholder="Selectionner la commune..." [filter]="true" appendTo="body"  (onChange)="onSelectedCommune(communeSelected)" [showClear]="true" >
+                </p-dropdown>
+            </div>
+            <div class="field col-4 md:col-4">
+                <label for="arrondissementSelected">Arrondissement<span class="text-danger">*</span>:</label>
+                <p-dropdown autoWidth="false" styleClass="mb-3" [style]="{'width':'100%'}" [options]="arrondissements" [(ngModel)]="arrondissementSelected"  optionLabel="libelle" inputId="arrondissementSelected"
+                    name="arrondissementSelected" placeholder="Selectionner l'arrondissement..." [filter]="true" appendTo="body" (onChange)="onSelectedArrondissement(arrondissementSelected)" [showClear]="true" >
+                </p-dropdown>
+            </div>
+            <div class="field col-4 md:col-4">
+                <label for="secteurVillageSelected">Secteur/Village<span class="text-danger">*</span>:</label>
+                <p-dropdown autoWidth="false" styleClass="mb-3" [style]="{'width':'100%'}" [options]="secteurVillages" [(ngModel)]="secteurVillageSelected" optionLabel="libelle" inputId="secteurVillageSelected"
+                    name="secteurVillageSelected" placeholder="Selectionner le village..." [filter]="true" appendTo="body" [showClear]="true">
+                </p-dropdown>
+            </div>
+            <div class="field col-4 md:col-4"> 
+                <label for="dateDebutPeriode">Date début de période</label>
+                <p-calendar name="dateDebutPeriode" styleClass="mb-3" [style]="{'width':'100%'}" dateFormat="dd-mm-yy" [showIcon]="true" inputId="dateDebutPeriode"
+                    [inline]="false" [(ngModel)]="dateDebutPeriode">
+                </p-calendar>
+            </div>
+
+            <div class="field col-4 md:col-4">
+                <label for="dateFinPeriode">Date fin</label>
+                <p-calendar name="dateFinPeriode" styleClass="mb-3" [style]="{'width':'100%'}" dateFormat="dd-mm-yy" [showIcon]="true" inputId="dateFinPeriode"
+                        [inline]="false" [(ngModel)]="dateFinPeriode">
+                </p-calendar>
+            </div>
+
+            <div class="field col-12 md:col-12">
+                <div class="flex justify-content-center ">
+                    <p-button styleClass="p-button-raised p-button-success" [style]="{'margin-right': '20px'}" label="Rechercher" icon="pi pi-search" (onClick)="rechercher()"></p-button> 
+                    <p-button styleClass="p-button-raised p-button-help" label="Exporter" icon="pi pi-print" (click)="showDialog()"></p-button>
+                </div>
+            </div> 
+        </div>
+    </fieldset> 
+</div>
+<div class="card field col-12 md:col-12">
+    <p-table #dt [value]="assureValues" [paginator]="true" [rows]="recordsPerPage" [loading]="isLoading"
+        [totalRecords]="totalRecords"
+        [scrollable]="true" scrollDirection="horizontal" 
+        currentPageReportTemplate="Affichage {first} à {last} de {totalRecords} élements" [showCurrentPageReport]=true
+        [rowsPerPageOptions]="[10, 20, 100]" styleClass="p-datatable-sm">
+        
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 180px">N° Immat</th>
+                <th style="width: 120px">Nom</th>
+                <th style="width: 100px">Prénom</th>
+                <th style="width: 100px">Date N.</th>
+
+                <th style="width: 100px">Type</th>
+                <th style="width: 120px">Ville</th>
+                <th style="width: 120px">?</th>
+                <th style="width: 150px">Sexe</th>
+                <th style="width: 120px">Tel.</th>
+                <th pSortableColumn="nat" style="width: 120px">Nat.<p-sortIcon field="nat"></p-sortIcon></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex" let-assureValue>
+            <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex" [pContextMenuRow]="assureValue">
+                <td style="width: 180px">{{assureValue.immatriculation}}</td>
+                <td style="width: 100px">{{assureValue.nom}}</td>
+                <td style="width: 100px">{{assureValue.prenom}}</td>
+                <td style="width: 120px">{{assureValue.dateNaissance ? (assureValue.dateNaissance | date: 'dd-MM-yyyy HH:mm:ss') : '-'}}</td> 
+
+                <td style="width: 120px">{{assureValue.typeAssure? assureValue.typeAssure.libelle :'-'}}</td>
+                <td style="width: 120px">{{assureValue.secteurVillage ? assureValue.secteurVillage.libelle : '-'}}</td> 
+                
+                <td style="width: 100px">{{assureValue.principal==true ? 'Principal' : 'A charge'}}</td> 
+
+                <td style="width: 100px">{{assureValue.genre ? assureValue.genre : '-' }}</td> 
+                
+                <td style="width: 120px">{{assureValue.telephone ? assureValue.telephone : '-'}}</td> 
+                <td style="width: 150px">{{assureValue.nationalite ? assureValue.nationalite : '-'}}</td> 
+                 
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
