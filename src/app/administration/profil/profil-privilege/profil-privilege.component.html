@@ -1,0 +1,83 @@
+
+<form name="editForm" profil="form" novalidate #editForm="ngForm">
+    <ng-template pTemplate="header">
+        <div class="card-header bg-header-cnamu">
+            <h4 class="text-white text-center text-bold">Gestion des privilèges</h4>
+        </div>
+    </ng-template>
+
+    <div class="card">
+        <div class="card-body">
+            <h6 class="text-bold">Filtre</h6>
+            <hr />
+           
+
+            <div class="table-responsive" id="modal-scroller" style="min-height: 40vh;"
+                *ngIf="listePrivilege.length > 0">
+                <table class="table table-sm table-striped table-hover">
+                    <thead class="thead-light-bleu-civil">
+                        <tr>
+                            <!-- <th scope="col">
+                                <input type="checkbox" [(ngModel)]="allSelected" name="select_piece"
+                                       (change)="checkUncheckAll()" class="form-control form-control-sm"/>
+                            </th> -->
+                            <th scope="col">
+                                <span class="">Actif</span>
+                            </th>
+                            <th scope="col">
+                                <span class="">Privilège</span>
+                            </th>
+                            <th scope="col">
+                                <span class="">Entité</span>
+                            </th>
+                            <th scope="col">
+                                <span class="">Modules</span>
+                            </th>
+                            <!-- <th class="text-right">Actions</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let privilege of listePrivilege; let i = index;" [attr.data-index]="i">
+                            <td>
+                                <input type="checkbox" [(ngModel)]="privilege.isChecked" name="select_privilege{{i}}"
+                                    value="{{i}}" id="select_privilege{{i}}" (ngModelChange)="isAllSelected()"
+                                    disabled="{{profil.nativeProfile}}" />
+                            </td>
+                            <td>
+                                <span>{{ privilege.libelle }}</span>
+                            </td>
+                            <!-- <td>
+                                <span>{{privilege.entityName ? privilege.entityName.name : '-' }}</span>
+                            </td>
+                            <td>
+                                <span>{{privilege.entityName ? privilege.entityName.service!.nom : '-' }}</span>
+                            </td> -->
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          
+            <div class="table-responsive" *ngIf="listePrivilege.length == 0">
+                <table class="table table-sm">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="alert alert-danger text-center">Pas de données disponible !</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-danger" title="Annuler et fermer">
+                 Annuler
+            </button>
+            <button type="submit" class="btn btn-sm btn-primary" [disabled]="editForm.form.invalid"
+                (click)="saveEntity()">
+                Enregistrer
+            </button>
+        </div>
+    </div>
+</form>

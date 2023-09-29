@@ -1,0 +1,96 @@
+<!-- Confirmation -->
+<app-confirmation></app-confirmation>
+<!-- <p-divider></p-divider> -->
+<hr>
+<ng-template pTemplate="header">
+    <i class="{{isEditing() ? 'pi-pencil' : 'pi-plus'}} pi p-mr-1"></i>
+    <span class="mr-auto">
+        {{profil.id ? 'Modifier' : 'Ajouter'}} un profil
+    </span>
+</ng-template>
+<p-progressBar *ngIf="isDialogOpInProgress" mode="indeterminate" color="#1e88e0"></p-progressBar>
+<p-message *ngIf="dialogErrorMessage" severity="error" [text]="dialogErrorMessage"></p-message>
+<form (ngSubmit)="saveEntity()" #dtf="ngForm" style="margin-top:20px;">
+    <div class="formgrid grid">
+        <div class="field col-12 md:col-12">
+            <label for="code">Code<span class="text-danger">*</span>:</label>
+            <input type="text" id="code" name="code" placeholder="code" #code="ngModel" [(ngModel)]="profil.code"
+                required
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                <div class="p-error"
+                *ngIf="code.invalid && (code.dirty || code.touched) && code.errors">
+                <span>Veillez saisir le code</span>
+              </div>
+            </div>
+        <div class="field col-12 md:col-12">
+            <label for="libelle">Libelle<span class="text-danger">*</span>:</label>
+            <input type="text" id="libelle" name="libelle" placeholder="libelle" #libelle="ngModel"
+                [(ngModel)]="profil.libelle" required
+                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                <div class="p-error"
+                *ngIf="libelle.invalid && (libelle.dirty || libelle.touched) && libelle.errors">
+                <span>Veillez saisir le libellé</span>
+              </div>
+            </div>
+
+
+    </div>
+    <p-divider class="mt-10"></p-divider>
+    <div class="table-responsive" id="modal-scroller" style="min-height: 40vh;" *ngIf="listePrivilege.length > 0">
+        <table class="table table-sm table-striped table-hover">
+            <thead class="thead-light-bleu-civil">
+                <tr>
+                    <!-- <th scope="col">
+                        <input type="checkbox" [(ngModel)]="allSelected" name="select_piece"
+                            (change)="checkUncheckAll()" class="form-control form-control-sm" />
+                    </th> -->
+                    <th scope="col">
+                        <span class="">Actif</span>
+                    </th>
+                    <th scope="col">
+                        <span class="">Code</span>
+                    </th>
+                    <th scope="col">
+                        <span class="">Libelle</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let privilege of listePrivilege; let i = index;" [attr.data-index]="i">
+                    <td>
+                        <input type="checkbox" [(ngModel)]="privilege.isChecked" name="select_privilege{{i}}"
+                            value="{{i}}" id="select_privilege{{i}}" (onChange)="isAllSelected()"
+                             />
+                    </td>
+                    <td>
+                        <span>{{ privilege.code }}</span>
+                    </td>
+                    <td>
+                        <span>{{privilege.libelle }}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-responsive" *ngIf="listePrivilege.length == 0">
+        <table class="table table-sm">
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="alert alert-danger text-center">Pas de données disponible !</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="p-ml-auto text-right">
+        <button type="reset" label="Annuler" icon="pi pi-times" (click)="clear()"
+            class="p-button-raised p-button-danger p-button-success mr-3" pButton></button>
+        <button type="submit" [disabled]="!dtf.form.valid" label="{{isEditing() ? 'Enregistrer' : 'Ajouter'}}"
+            icon="pi {{isEditing() ? 'pi-save' : 'pi-plus'}}"
+            class="p-button-raised  {{isEditing() ? 'p-button-primary' : 'p-button-success'}}" pButton>
+        </button>
+    </div>
+</form>

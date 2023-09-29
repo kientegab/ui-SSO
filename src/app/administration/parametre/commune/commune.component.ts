@@ -19,6 +19,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./commune.component.scss']
 })
 export class CommuneComponent implements OnInit {
+  
   routeData: Subscription | undefined;
   communeListSubscription: Subscription | undefined;
   communes: ICommune[] = [];
@@ -48,9 +49,6 @@ export class CommuneComponent implements OnInit {
 
   filtreLibelle: string | undefined;
   items: MenuItem[] = [];
-
-  
-
   constructor(
     private communeService: CommuneService,
     private activatedRoute: ActivatedRoute,
@@ -60,7 +58,6 @@ export class CommuneComponent implements OnInit {
     private router: Router,
     private confirmationService: ConfirmationService
     ){}
-
 
    ngOnInit(): void { 
         this.activatedRoute.data.subscribe(

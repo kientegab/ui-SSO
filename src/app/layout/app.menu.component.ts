@@ -40,6 +40,21 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-lock',
                         //visible: this.authService.checkPermission([Authority.ADMIN, Authority.VIEW_USER], AuthenticationService.privileges),
                         items: [
+                            {
+                                label: 'Privilèges',
+                                icon: 'pi pi-fw pi-eye-slash',
+                                routerLink: ['/admin/privileges']
+                            },
+                            {
+                                label: 'Profils',
+                                icon: 'pi pi-fw pi-eye-slash',
+                                routerLink: ['/admin/profils']
+                            },
+                            {
+                                label: 'Services',
+                                icon: 'pi pi-fw pi-eye-slash',
+                                routerLink: ['/admin/services']
+                            },
                         ]
                     },
                     {

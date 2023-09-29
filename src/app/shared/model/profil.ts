@@ -1,3 +1,4 @@
+import { IAppService } from "./app-service";
 import { IPrivilege } from "./privilege";
 
 export interface IProfil {
@@ -5,6 +6,7 @@ export interface IProfil {
     code?: string;
     libelle?: string;
     nativeProfile?: boolean;
+    appService?: IAppService;
     privilegeCollection?: IPrivilege[];
 }
 
@@ -14,6 +16,7 @@ export class Profil implements IProfil {
         public code?: string,
         public libelle?: string,
         public nativeProfile?: boolean,
+        public appService?: IAppService,
         public privilegeCollection?: IPrivilege[]
     ){}
 }
