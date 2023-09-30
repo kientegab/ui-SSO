@@ -10,17 +10,25 @@ const routerOptions: ExtraOptions = {
 };
 
 const routes: Routes = [
-    
+
     {
         path: '', component: DashboardPublicComponent,
         children: [
             { path: '', data: { breadcrumb: 'Auth' }, loadChildren: () => import('./account/login/login.module').then(m => m.LoginModule) },
-           
+            { path: 'user', loadChildren: () => import('./account/account.module').then(m => m.AccountModule) },
         ]
     },
     {
        // path: 'admin', component: AppLayoutComponent, canActivate: [AuthGuard],
-        path: 'admin', component: AppLayoutComponent, 
+        path: 'admin', component: AppLayoutComponent,
+        //  data: {
+        //     authorities: [Authority.USER,Authority.ADMIN
+        //     ]
+        // },
+         children: [
+            { path: '', loadChildren: () => import('./administration/administration.module').then(m => m.AdministrationModule) },
+        ]
+      //  path: 'admin', component: AppLayoutComponent,
         // data: {
         // authorities: [Authority.USER,Authority.ADMIN,
         //     Authority.ADD_PROFILE,Authority.VIEW_PROFILE,Authority.DELETE_PROFILE,Authority.ADD_USER,
@@ -62,10 +70,11 @@ const routes: Routes = [
         //    Authority.EDIT_COTISATION,Authority.VIEW_COTISATION,Authority.DELETE_COTISATION     
         // ],
         // },
-        children: [
-            { path: '', loadChildren: () => import('./administration/administration.module').then(m => m.AdministrationModule) },
-        ]
+        // children: [
+        //     { path: '', loadChildren: () => import('./administration/administration.module').then(m => m.AdministrationModule) },
+        // ]
     },
+    
     { path: 'notfound', loadChildren: () => import('./shared/notfound/notfound.module').then(m => m.NotfoundModule) },
     { path: '**', redirectTo: '/notfound' }
 ];

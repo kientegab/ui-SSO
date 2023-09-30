@@ -1,50 +1,40 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { Message } from 'primeng/api';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { ILoginVM, LoginVM } from 'src/app/shared/model/login-vm';
-import { AuthenticationService } from 'src/app/shared/service/auth.service';
+import { UserService } from 'src/app/shared/service/user.service';
 
 @Component({
-	selector: 'app-login',
-	templateUrl: './login.component.html',
-	styleUrls: ['./login.component.scss']
+    templateUrl: './forgotpassword.component.html'
 })
-export class LoginComponent {
+export class ForgotPasswordComponent { 
 
-	rememberMe: boolean = false;
-	@ViewChild('dtf') form!: NgForm;
-
-	account: ILoginVM = new LoginVM();
-
+	email: string | undefined;
 	isOpInProgress!: boolean;
 	isDialogOpInProgress!: boolean;
 	message: any;
 	dialogErrorMessage: any;
 	timeoutHandle: any;
 
-	constructor(
+    constructor(
 		private layoutService: LayoutService,
-		private authService: AuthenticationService,
-	) { }
+		private userService: UserService
+		) {}
 
 	get dark(): boolean {
 		return this.layoutService.config.colorScheme !== 'light';
 	}
 
-	seConnecter(): void {
+	sendMail(): void {
 		this.clearDialogMessages();
 		this.isDialogOpInProgress = true;
-		// this.router.navigate(['/admin']);
-		this.authService
-			.login(this.account)
+		this.userService
+			.sendMail(this.email!)
 			.subscribe(
 				{
 					next: (response) => {
 						if (response) {
-							this.showMessage({ severity: 'success', summary: 'Vous êtez authentifié avec succès' });
+							this.showMessage({ severity: 'success', summary: 'Une adresse mail vous a été envoyé' });
 						}
 					},
 					error: (error) => {
@@ -75,6 +65,5 @@ export class LoginComponent {
 	clearDialogMessages() {
 		this.dialogErrorMessage = null;
 	}
-
 
 }

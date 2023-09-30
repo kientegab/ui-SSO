@@ -1,23 +1,17 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { Message } from 'primeng/api';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { ILoginVM, LoginVM } from 'src/app/shared/model/login-vm';
-import { AuthenticationService } from 'src/app/shared/service/auth.service';
+import { ForgotPassword, IForgotPassword } from 'src/app/shared/model/forget-password';
+import { UserService } from 'src/app/shared/service/user.service';
 
 @Component({
-	selector: 'app-login',
-	templateUrl: './login.component.html',
-	styleUrls: ['./login.component.scss']
+	templateUrl: './newpassword.component.html'
 })
-export class LoginComponent {
+export class NewPasswordComponent {
 
 	rememberMe: boolean = false;
-	@ViewChild('dtf') form!: NgForm;
-
-	account: ILoginVM = new LoginVM();
+	forgotPassword: IForgotPassword = new ForgotPassword();
 
 	isOpInProgress!: boolean;
 	isDialogOpInProgress!: boolean;
@@ -27,19 +21,16 @@ export class LoginComponent {
 
 	constructor(
 		private layoutService: LayoutService,
-		private authService: AuthenticationService,
-	) { }
+		private userService: UserService
+		) {}
 
 	get dark(): boolean {
 		return this.layoutService.config.colorScheme !== 'light';
 	}
-
-	seConnecter(): void {
+	newPassword(): void {
 		this.clearDialogMessages();
 		this.isDialogOpInProgress = true;
-		// this.router.navigate(['/admin']);
-		this.authService
-			.login(this.account)
+		this.userService.forgotPassword(this.forgotPassword)
 			.subscribe(
 				{
 					next: (response) => {
@@ -78,3 +69,4 @@ export class LoginComponent {
 
 
 }
+

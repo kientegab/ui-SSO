@@ -7,12 +7,13 @@ import { IUser } from '../model/user';
 import { LazyLoadEvent } from 'primeng/api';
 import { IValidationCompte } from '../model/validationCompte';
 import { IChangePasswordDTO } from '../model/change-password-dto';
+import { IForgotPassword } from '../model/forget-password';
 
 type EntityResponseType = HttpResponse<IUser>;
 type EntityArrayResponseType = HttpResponse<IUser[]>;
 
 type PasswordResponseType = HttpResponse<IChangePasswordDTO>;
-
+type ForgotPasswordResponseType = HttpResponse<IForgotPassword>;
 type ValidationCompteResponseType = HttpResponse<IValidationCompte>;
 
 const resourceUrl = environment.userUrl;
@@ -55,16 +56,20 @@ export class UserService {
     return this.http.delete(`${resourceUrl}/${login}`, { observe: 'response' });
   }
 
-  findListe(): Observable<EntityArrayResponseType> {
-    return this.http.get<IUser[]>(resourceUrl, { observe: 'response' });
-  }
-
-  findAll(event?: LazyLoadEvent): Observable<EntityArrayResponseType> {
+  findAll(): Observable<EntityArrayResponseType> {
     return this.http.get<IUser[]>(resourceUrl, { observe: 'response' });
   }
 
   changePassword(request: IChangePasswordDTO): Observable<PasswordResponseType> {
     return this.http.post<IChangePasswordDTO>(resourceUrl+'/reset-connect-password', request,{ observe: 'response' });
+  }
+
+  forgotPassword(request: IForgotPassword): Observable<ForgotPasswordResponseType> {
+    return this.http.post<IForgotPassword>(resourceUrl+'/reset-connect-password', request,{ observe: 'response' });
+  }
+
+  sendMail(mail: string): Observable<any> {
+    return this.http.post(resourceUrl, mail, { observe: 'response'});
   }
 
   getAuthenticationState(): Observable<IUser | null> {

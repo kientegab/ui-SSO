@@ -231,24 +231,5 @@ export class AuthenticationService {
     return result;
   }
 
-
-  public static checkPermissionTest(permissions: string[], perm: string[]): boolean {
-    let resultat = false;
-    for (let i = 0; i < permissions.length; i++) {
-      for (let index = 0; index < perm.length; index++)
-        if (permissions[i] == perm[index]) {
-          return true;
-        }
-    }
-    return resultat;
-  }
-
-  public static getPrivilegeTest(): Array<any> | null {
-    let privilege = JSON.parse(localStorage.getItem(TOKEN_KEY)!)
-    if (privilege != null) {
-      privilege = privilege.additionalInfo.privileges;
-    }
-    return privilege;
-  }
 }
 
