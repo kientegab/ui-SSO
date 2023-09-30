@@ -215,7 +215,6 @@ export class PrivilegeComponent implements OnInit, OnDestroy {
         summary: 'Privilège supprimée avec succès',
       });
     }, (error) => {
-      console.error("commune " + JSON.stringify(error));
       this.isOpInProgress = false;
       this.showMessage({ severity: 'error', summary: error.error.message });
     });

@@ -143,7 +143,7 @@ export class AppServicesComponent implements OnInit, OnDestroy {
   openModalCreate(): void {
     this.dialogService.open(CreerModifierAppServiceComponent,
       {
-        header: 'Ajouter un appService',
+        header: 'Ajouter un application service',
         width: '60%',
         contentStyle: { overflow: 'auto' },
         baseZIndex: 10000,
@@ -154,7 +154,7 @@ export class AppServicesComponent implements OnInit, OnDestroy {
       if(result) {
         this.appServices.push(result.body);
         this.isDialogOpInProgress = false;
-        this.showMessage({ severity: 'success', summary: 'Profil creer avec succès' });
+        this.showMessage({ severity: 'success', summary: 'Application service creer avec succès' });
         }
     });
   }
@@ -163,7 +163,7 @@ export class AppServicesComponent implements OnInit, OnDestroy {
   openModalEdit(appService: IAppService): void {
     this.dialogService.open(CreerModifierAppServiceComponent,
       {
-        header: 'Modifier un appService',
+        header: 'Modifier un application service',
         width: '60%',
         contentStyle: { overflow: 'auto' },
         baseZIndex: 10000,
@@ -186,7 +186,7 @@ export class AppServicesComponent implements OnInit, OnDestroy {
   openModalDetail(appService: IAppService): void {
     this.dialogService.open(DetailsAppServiceComponent,
       {
-        header: 'Details du appService',
+        header: 'Details du application service',
         width: '60%',
         contentStyle: { overflow: 'auto' },
         baseZIndex: 10000,
@@ -200,7 +200,7 @@ export class AppServicesComponent implements OnInit, OnDestroy {
   // Deletion
   onDelete(appService: IAppService) {
     this.confirmationService.confirm({
-      message: 'Etes-vous sur de vouloir supprimer ce taux de cotisation?',
+      message: 'Etes-vous sur de vouloir supprimer cette application service?',
       accept: () => {
         this.delete(appService);
       }
@@ -219,10 +219,9 @@ export class AppServicesComponent implements OnInit, OnDestroy {
       this.totalRecords--;
       this.showMessage({
         severity: 'success',
-        summary: 'Exemple supprimé avec succès',
+        summary: 'Application supprimé avec succès',
       });
     }, (error) => {
-      console.error("Exemple " + JSON.stringify(error));
       this.isOpInProgress = false;
       this.showMessage({ severity: 'error', summary: error.error.message });
     });

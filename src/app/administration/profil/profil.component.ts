@@ -201,7 +201,7 @@ export class ProfilComponent implements OnInit, OnDestroy {
   // Deletion
   onDelete(profil: IProfil) {
     this.confirmationService.confirm({
-      message: 'Etes-vous sur de vouloir supprimer ce taux de cotisation?',
+      message: 'Etes-vous sur de vouloir supprimer ce profil?',
       accept: () => {
         this.delete(profil);
       }
@@ -238,10 +238,9 @@ export class ProfilComponent implements OnInit, OnDestroy {
       this.totalRecords--;
       this.showMessage({
         severity: 'success',
-        summary: 'Exemple supprimé avec succès',
+        summary: 'Profil supprimé avec succès',
       });
     }, (error) => {
-      console.error("Exemple " + JSON.stringify(error));
       this.isOpInProgress = false;
       this.showMessage({ severity: 'error', summary: error.error.message });
     });
