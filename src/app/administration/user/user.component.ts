@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ITauxFCotisation } from 'src/app/shared/model/taux-fcotisation';
 import { NgForm } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { ConfirmationService, LazyLoadEvent, Message } from 'primeng/api';
@@ -11,6 +10,7 @@ import { IUser, User } from 'src/app/shared/model/user';
 import { UserService } from 'src/app/shared/service/user.service';
 import { CreerModifierUserComponent } from './creer-modifier-user/creer-modifier-user.component';
 import { DetailUserComponent } from './detail-user/detail-user.component';
+import { CURRENT_PAGE, MAX_SIZE_PAGE } from 'src/app/shared/constants/pagination.constants';
 
 
 @Component({
@@ -28,7 +28,7 @@ export class UserComponent implements OnInit, OnDestroy {
   @ViewChild('dtf') form!: NgForm;
 
   timeoutHandle: any;
-  totalRecords!: number;
+  totalRecords: number = 0;
   recordsPerPage = environment.recordsPerPage;
   enableCreate = true;
   enableBtnInfo = true;
@@ -41,6 +41,14 @@ export class UserComponent implements OnInit, OnDestroy {
   message: any;
   dialogErrorMessage: any;
 
+  
+  page = CURRENT_PAGE;
+  previousPage?: number;
+  maxSize = MAX_SIZE_PAGE;
+  predicate!: string;
+  ascending!: boolean;
+  reverse: any;
+
   filtreLibelle: string | undefined;
 
 
@@ -49,6 +57,7 @@ export class UserComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private dialogService: DialogService,
     private confirmationService: ConfirmationService,
+    private router: Router
   ) {
 
   }
@@ -79,10 +88,30 @@ export class UserComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  loadPage(event: any): void {
+    if (event) {
+      this.page = event.first / event.rows + 1;
+      this.recordsPerPage = event.rows;
+    }
+    this.transition();
+  }
+
+  transition(): void {
+    this.router.navigate(['./'], {
+      relativeTo: this.activatedRoute.parent,
+      queryParams: {
+        page: this.page,
+        sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc'),
+      },
+    });
+    this.loadAll();
+  }
   /** Permet d'afficher le tableau avec tout les elements */
-  loadAll(event?: LazyLoadEvent): void {
+  loadAll(): void {
     this.isLoading = true;
-    this.userService.findAll(event).subscribe(
+    const req = this.buildReq();
+    this.userService.query(req).subscribe(
       {
         next: (result) => {
           if (result && result.body) {
@@ -98,6 +127,27 @@ export class UserComponent implements OnInit, OnDestroy {
       });
   }
 
+  sortMethod(): string[] {
+    this.predicate = 'id';
+    this.reverse = true;
+    const result = [this.predicate + ',' + (this.reverse ? 'asc' : 'desc')];
+    return result;
+  }
+
+  buildReq(): any {
+    let req = {
+      page: this.page - 1,
+      size: this.recordsPerPage,
+      sort: this.sortMethod(),
+    };
+    let obj: any;
+    if (this.filtreLibelle) {
+      obj = {};
+      obj['libelle.contains'] = this.filtreLibelle;
+      req = Object.assign({}, req, obj);
+    }
+    return req;
+  }
 
   /** Permet d'afficher un modal pour l'ajout */
   openModalCreate(): void {

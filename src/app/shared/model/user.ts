@@ -4,9 +4,6 @@ import { IProfil } from "./profil";
 export interface IUser {
     id?: number;
     nomUtilisateur?: string;
-   /* usermane?: string;
-    dateNaissance?: Date;
-    photo?: string;*/
     email?: string; 
     nom?: string;
     prenom?: string;
@@ -15,10 +12,9 @@ export interface IUser {
     resetKey?: string;
     confirmationExpireDate?: Date;
     resetExpireDate?: Date;
-   // langKey?: string;
+    resetDate?: Date;
     telephone?: string;
     profile?: IProfil;
-  //  privilegeCollection?: IPrivilege[];
     password?: string;
     confirmePassword?: string;
 }

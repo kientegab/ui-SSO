@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'privileges', data: {breadcrumb: 'Gestion des privilèges'}, loadChildren: () => import('./privilege/privilege.module').then(m => m.PrivilegeModule) },
   { path: 'profils', data: {breadcrumb: 'Gestion des profils'}, loadChildren: () => import('./profil/profil.module').then(m => m.ProfilModule) },
   { path: 'services', data: {breadcrumb: 'Gestion des applications services'}, loadChildren: () => import('./app-services/app-services.module').then(m => m.AppServicesModule) },
+  { path: 'utilisateurs/account', data: {breadcrumb: 'Gestion des utilisateurs'}, loadChildren: () => import('./user/user.module').then(m => m.UserModule) },
   { path: '**', redirectTo: '/notfound' }
 ];
 

@@ -1,1 +1,28 @@
-<p>details-app-service works!</p>
+<!-- formulaire d'affichage du détail -->
+<ng-template pTemplate="header">
+    <span class="p-mr-auto"> <b>DETAILS APPLICATION SERVICE</b></span>
+</ng-template>
+<p-divider></p-divider>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-action">
+                <span class="va-m"><span class="font-bold">Code:</span> {{appService.code}}</span>
+            </li>
+            <li class="list-group-item list-group-item-action">
+                <span class="va-m"><span class="font-bold">Libelle:</span> {{appService.libelle}}</span>
+            </li>
+            <li class="list-group-item list-group-item-action">
+                <span class="va-m"><span class="font-bold">URI:</span> {{appService.appUri}}</span>
+            </li>
+            <li class="list-group-item list-group-item-action">
+                <span class="va-m"><span class="font-bold">Description:</span> {{appService.description}}</span>
+            </li>
+        </ul>
+    </div>
+</div>
+<p-divider></p-divider>
+<div class="p-ml-auto text-right">
+    <button description="reset" label="Fermer" (click)="clear()" class="p-button-raised p-button-danger mr-2"
+        pButton></button>
+</div>

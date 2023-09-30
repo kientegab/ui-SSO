@@ -48,7 +48,6 @@ export class CreerModifierCommuneComponent {
   loadProvince(event?: LazyLoadEvent) {
     this.provinceService.findListe().subscribe(response => {
       this.provinces = response.body!;
-      console.error("ppp", this.provinces)
     }, error => {
       this.message = { severity: 'error', summary: error.error };
       console.error(JSON.stringify(error));

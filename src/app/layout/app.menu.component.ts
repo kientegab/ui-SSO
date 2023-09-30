@@ -55,6 +55,11 @@ export class AppMenuComponent implements OnInit {
                                 icon: 'pi pi-fw pi-eye-slash',
                                 routerLink: ['/admin/services']
                             },
+                            {
+                                label: 'Compte utilisateur',
+                                icon: 'pi pi-fw pi-eye-slash',
+                                routerLink: ['/admin/utilisateurs/account']
+                            },
                         ]
                     },
                     {

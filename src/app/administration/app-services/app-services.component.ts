@@ -107,10 +107,17 @@ export class AppServicesComponent implements OnInit, OnDestroy {
  /** Permet d'afficher le tableau avec tout les elements */
   loadAll(): void {
     const req = this.buildReq();
-    this.appServiceService.query(req).subscribe(result => {
-      if (result && result.body) {
-        this.totalRecords = Number(result.headers.get('X-Total-Count'));
-        this.appServices = result.body || [];
+    this.appServiceService.query(req).subscribe( {
+      next: (result) => {
+        if (result && result.body) {
+          this.isLoading = false;
+          this.appServices = result.body!;
+          this.totalRecords = Number(result.headers.get('X-Total-Count'));
+        }
+      },
+      error: (reason) => {
+        this.message = { severity: 'error', summary: reason.error };
+        console.error(JSON.stringify(reason));
       }
     });
   }

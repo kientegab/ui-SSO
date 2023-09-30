@@ -5,7 +5,6 @@ import { cloneDeep } from 'lodash';
 import { ConfirmationService, Message } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IProfil } from 'src/app/shared/model/profil';
-import { IProfilImage, ProfilImage } from 'src/app/shared/model/profil-image';
 import { IUser, User } from 'src/app/shared/model/user';
 import { ProfilService } from 'src/app/shared/service/profil.service';
 import { UserService } from 'src/app/shared/service/user.service';
@@ -30,7 +29,6 @@ export class CreerModifierUserComponent implements OnInit {
   profils: IProfil[] = [];
   imageURL: string | undefined; 
   uploadForm!: FormGroup;
-  currentFileUpload: IProfilImage = new ProfilImage();
   changeImage: boolean = false;
   uploading: boolean = false;
   imageToShow: string | undefined;
