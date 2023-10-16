@@ -12,7 +12,7 @@ const commonAppCOT: string = 'http://localhost:8089/api/cotisations/';
 //const commonAppCOT: string = 'http://192.168.1.216:8089/api/cotisations/';
 //const commonAppCOT1: string = 'http://10.170.24.118:8090/api/affiliation-immatriculation/';
 
-const commonAuth: string = 'http://localhost:8099/api/auth/';
+const commonAuth: string = 'http://localhost:9000/api/auth/';
 
 export const environment = {
   production: false,

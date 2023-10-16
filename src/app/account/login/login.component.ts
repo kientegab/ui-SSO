@@ -28,6 +28,7 @@ export class LoginComponent {
 	constructor(
 		private layoutService: LayoutService,
 		private authService: AuthenticationService,
+		private router: Router,
 	) { }
 
 	get dark(): boolean {
@@ -37,23 +38,23 @@ export class LoginComponent {
 	seConnecter(): void {
 		this.clearDialogMessages();
 		this.isDialogOpInProgress = true;
-		// this.router.navigate(['/admin']);
-		this.authService
-			.login(this.account)
-			.subscribe(
-				{
-					next: (response) => {
-						if (response) {
-							this.showMessage({ severity: 'success', summary: 'Vous êtez authentifié avec succès' });
-						}
-					},
-					error: (error) => {
-						console.error("error" + JSON.stringify(error));
-						this.isOpInProgress = false;
-						this.showMessage({ severity: 'error', summary: error.message });
+		 this.router.navigate(['/admin']);
+		// this.authService
+		// 	.login(this.account)
+		// 	.subscribe(
+		// 		{
+		// 			next: (response) => {
+		// 				if (response) {
+		// 					this.showMessage({ severity: 'success', summary: 'Vous êtez authentifié avec succès' });
+		// 				}
+		// 			},
+		// 			error: (error) => {
+		// 				console.error("error" + JSON.stringify(error));
+		// 				this.isOpInProgress = false;
+		// 				this.showMessage({ severity: 'error', summary: error.message });
 
-					}
-				});
+		// 			}
+		// 		});
 	}
 
 
